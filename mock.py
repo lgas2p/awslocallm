@@ -14,7 +14,7 @@ class LocalLLM:
         self.prompt = PromptTemplate.from_template(template)
         local_path = ("./models/mistral-7b-instruct-v0.1.Q4_0.gguf") 
         callbacks = [StreamingStdOutCallbackHandler()]
-        self.llm = GPT4All(model=local_path, callbacks=callbacks, verbose=True, n_threads=4, max_tokens=32000, n_predict=1024)
+        self.llm = GPT4All(model=local_path, device='gpu', callbacks=callbacks, verbose=True, n_threads=4, max_tokens=32000, n_predict=1024)
 
         self.chain = ({"question": RunnablePassthrough()} | self.prompt | self.llm)
         self.status = True
