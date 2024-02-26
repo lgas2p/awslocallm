@@ -1,8 +1,9 @@
-from models import CompleteOutput, Images, Videos
+from models import CompleteOutput, TimeFrames, QuestionRequest
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.prompts import PromptTemplate
 from langchain_community.llms.gpt4all import GPT4All
 from langchain.schema.runnable import RunnablePassthrough
+import time
 
 class LocalLLM:
     
@@ -19,5 +20,9 @@ class LocalLLM:
         self.chain = ({"question": RunnablePassthrough()} | self.prompt | self.llm)
         self.status = True
 
-    async def execute(self, question: str) -> CompleteOutput:
-        return CompleteOutput(bodyText=self.chain.invoke(question))
+    async def execute(self, question: QuestionRequest) -> CompleteOutput:
+        startT = time.time()
+        response = self.chain.invoke(question.message)
+        endT = time.time()
+        return CompleteOutput(bodyText=response, 
+                              timeElapsed=[TimeFrames(type="Total Time",value=(endT-startT))])

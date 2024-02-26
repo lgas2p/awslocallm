@@ -30,5 +30,5 @@ def rag_status():
 
 @app.post("/rag/run", response_model=CompleteOutput)
 async def rag_request(body: QuestionRequest = Body(...)):
-    results = await asyncio.gather(mock.execute(body.message))
+    results = await asyncio.gather(mock.execute(body))
     return results[0]

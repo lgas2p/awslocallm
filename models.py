@@ -14,6 +14,10 @@ class ActiveStatus(BaseModel):
 class QuestionRequest(BaseModel):
     message: str
 
+class TimeFrames(BaseModel):
+    type: str = None
+    value: float = None
+
 class Images(BaseModel):
     source: str = None
     type: str = "url"
@@ -28,3 +32,4 @@ class CompleteOutput(BaseModel):
     imgs: Optional[List[Images]] = None
     videos: Optional[List[Videos]] = None
     urls: Optional[List[str]] = None
+    timeElapsed: Optional[List[TimeFrames]] = None
